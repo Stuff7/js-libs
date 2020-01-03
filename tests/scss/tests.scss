@@ -1,0 +1,33 @@
+@use "datepicker";
+@use "dropdown";
+@use "shortcuts" as sc;
+@import url(https://fonts.googleapis.com/css?family=Kulim+Park&display=swap);
+
+* {
+	font: 16px "Kulim Park";
+}
+body {
+	background-color: #111;
+	color: #DDD;
+	margin: 2px;
+}
+svg {
+	fill: #DEF;
+}
+[type=number] {
+	@include sc.hideInputSpinners;
+}
+.dropdown {
+	> ul {
+		width: 25%;
+		min-width: 15em;
+		max-width: 18em;
+		background-color: rgba(50,50,50,.8);
+		> label:first-child li {
+			background-color: rgba(10,10,10,.8);
+		}
+		ul {
+			min-width: 10em;
+		}
+	}
+}

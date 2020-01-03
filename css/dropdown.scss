@@ -1,0 +1,80 @@
+.dropdown {
+	display: inline-block;
+	cursor: pointer;
+	text-decoration: none;
+	text-align: left;
+	a {
+		text-decoration: none;
+	}
+	.scroll {
+		max-height: 50vh;
+		overflow: hidden auto;
+	}
+	> ul {
+		background-color: #444;
+		border: 1px solid #aaa;
+		display: none;
+		position: absolute;
+		list-style-type: none;
+		padding: 0;
+		border-radius: 4px;
+		box-shadow: 0 0 5px 0 rgba(10,11,11,0.3);
+		cursor: default;
+		word-break: break-all;
+		> label:first-child li {
+			background-color: #222;
+			font-weight: bold;
+			font-size: 1.2em;
+		}
+	}
+	label {
+		li {
+			padding: 2px 8px;
+			color: #FFF;
+			cursor: pointer;
+			text-shadow: 0 0 4px #000;
+		}
+		&:hover li {
+			background-color: rgba(255,255,255,.2);
+			color: #FFF;
+		}
+		input[type=radio] {
+			display: none;
+			&:checked {
+				+ li {
+					color: #3E9;
+					font-weight: bold;
+					&::after {
+						content: "\2714";
+						margin-left: 8px;
+					}
+				}
+			}
+		}
+	}
+	&.focused, &.inner-focused, &:hover {
+		svg, &::after {
+			fill: #fff;
+			color: #fff;
+		}
+	}
+	&.focused > ul, &.inner-focused > ul {
+		display: block;
+		z-index: 1;
+	}
+	.button::after {
+		content: "\276F";
+		padding: 0 8px;
+	}
+	.separator {
+		height: 1px;
+		width: 90%;
+		background-color: rgba(255,255,255,.2);
+		margin: 4px auto;
+	}
+}
+
+.inner-dropdown > label:first-child > li::before {
+	content: "\276E";
+	padding: 8px;
+}

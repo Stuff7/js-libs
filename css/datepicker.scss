@@ -1,0 +1,57 @@
+@use "shortcuts" as sc;
+
+$background: #2B2B2B;
+.date-picker {
+	@include sc.no-select;
+	@include sc.flex($dir: column);
+	cursor: default;
+	background-color: $background;
+	border-radius: 4px;
+	padding: 4px;
+	input {
+		background-color: transparent;
+		width: 1.5em;
+		border: none;
+	}
+	.month {
+		@include sc.flex($justify: space-between, $wrap: wrap, $dir: column);
+		width: 70%;
+		span {
+			white-space: nowrap;
+		}
+		input {
+			color: lightgreen;
+		}
+	}
+	.days {
+		display: flex;
+	}
+	.day {
+		@include sc.flex($dir: column);
+		flex: 1;
+		text-align: center;
+		label span:hover {
+			outline: 1px solid rgba(255,255,255,.5);
+		}
+		.othermonth {
+			opacity: .5;
+		}
+		input[type=radio]:checked + span {
+			background-color: rgba(255,255,255,.5);
+		}
+		span {
+			white-space: nowrap;
+			display: block;
+		}
+		svg {
+			opacity: .7;
+			width: 1em;
+			position: absolute;
+			top: 1em;
+			align-self: center;
+			&:hover, &:active {
+				opacity: 1;
+			}
+		}
+	}
+}

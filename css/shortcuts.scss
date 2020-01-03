@@ -1,0 +1,51 @@
+@function toFixed($percentage) {
+	@return floor($percentage*100)/100;
+}
+@mixin not($exclude,$prop,$val,$none: none) {
+	#{$prop}: $val;
+	&:#{$exclude} {
+		#{$prop}: $none;
+	}
+}
+@mixin no-select {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+@mixin flex($dir: null, $justify: null, $align-items: null, $wrap: null) {
+	display: flex;
+	flex-direction: $dir;
+	justify-content: $justify;
+	align-items: $align-items;
+	flex-wrap: $wrap;
+}
+@mixin svg($fill: var(--normal-c1), $width: null, $size: null, $stroke: null, $join: null) {
+	fill: $fill;
+	width: $width;
+	stroke-width: $size;
+	stroke: $stroke;
+	stroke-linejoin: $join;
+}
+@mixin scrollbar($thumb: var(--dim-c1), $track: var(--darker-c1)) {
+	scrollbar-color: $thumb $track;
+	scrollbar-width: thin;
+	*::-webkit-scrollbar {
+		background-color: track;
+		width: 4px;
+	}
+	*::-webkit-scrollbar-thumb {
+		background-color: thumb;
+	}
+}
+@mixin hideInputSpinners {
+	&::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	&[type=number] {
+		-moz-appearance:textfield;
+	}
+}
