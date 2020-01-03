@@ -11,47 +11,6 @@ export function $onready(fn) {
 	document.on("DOMContentLoaded", fn)
 }
 
-export function setupDropdowns() {
-	const customBlur = new CustomEvent("customBlur")
-	for(const dropdown of $$(".dropdown, .inner-dropdown")) {
-		let shouldCancel = false
-		function blur() {
-			dropdown.classList.remove("focused")
-			dropdown.dispatchEvent(customBlur)
-		}
-		for(const parent of parents(dropdown)) {
-			parent.on("mousedown", function(e) {
-				if(!e.button) blur()
-			})
-		}
-		dropdown.on("mousedown", function(e) {
-			if(e.button) return
-			e.stopPropagation()
-			if(!this.classList.contains("focused")) this.classList.add("focused")
-			else if(shouldCancel) return (shouldCancel = false)
-			else blur()
-		})
-		const ul = dropdown.$("ul")
-		if(ul) {
-			for(const child of ul.$$("*")) {
-				child.on("mousedown", function(e) {
-					if(!e.button) shouldCancel = true
-				})
-			}
-		}
-	}
-	for(const dropdown of $$(".inner-dropdown")) {
-		const parent = dropdown.parentNode.$("ul")
-		dropdown.oncreation = dropdown.oncreation||(()=>{})
-		dropdown.$("label").onclick = ()=> dropdown.replaceWith(parent)
-		$(`#${dropdown.id.slice(0,-6)}`).onclick = ()=> {
-			parent.replaceWith(dropdown)
-			dropdown.oncreation()
-		}
-		dropdown.remove()
-	}
-}
-
 export function parents(elem) {
 	const nodes = []
 	while(elem.parentNode != document) {
