@@ -20,3 +20,6 @@ export function clamp(val, min, max) {
 export function inRange(v,min,max) {
 	return v >= min && v <= max
 }
+export function lastElem(array) {
+	return array[array.length - 1];
+}

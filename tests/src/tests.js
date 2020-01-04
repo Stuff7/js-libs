@@ -1,14 +1,15 @@
 "use strict"
 
 import {$,$$,$onready} from "Libs/dom_utils.js"
-import {DatePicker} from "Libs/date_picker.js"
+import {ColorPicker} from "Libs/color_picker.js"
 import {Dropdown} from "Libs/dropdown.js"
 
 $onready(function() {
-	const datepicker = DatePicker($(".date-picker"))
+	const colorpicker = ColorPicker($(".color-picker"))
 	const dropdownTag = Dropdown($(".dropdown")).$("span")
-	dropdownTag.innerText = datepicker.toString()
-	datepicker.on("datechange", function() {
-		dropdownTag.innerText = this.toString()
+	dropdownTag.innerText = colorpicker.color.hex()
+	colorpicker.on("colorchange", function(color) {
+		dropdownTag.innerText = color.hex()
 	})
+	$(".dropdown").on("customFocus", ()=> colorpicker.updateUI())
 })

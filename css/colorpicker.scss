@@ -73,8 +73,8 @@
 			input {
 				max-width: 6em;
 				text-align: center;
-				background-color: var(--dark-c1);
-				border: 1px solid var(--dim-c1);
+				background-color: rgba(255,255,255,.1);
+				border: 1px solid rgba(255,255,255,.25);
 			}
 			> span {
 				position: relative;
@@ -83,6 +83,41 @@
 					position: absolute;
 					top: -10px;
 					left: -4px;
+				}
+			}
+		}
+	}
+	+ .random-color {
+		display: flex;
+		div {
+			display: inline-block;
+			text-align: center;
+			flex: 1;
+			box-sizing: border-box;
+			background-color: rgba(155,155,155,.4);
+			padding: 4px;
+			word-break: keep-all;
+			width: 100%;
+			&:hover {
+				background-color: rgba(155,155,155,.7);
+			}
+		}
+		label {
+			flex: 1;
+			div {
+				opacity: .7;
+				background-color: rgba(100,100,100,.4);
+			}
+		}
+		input {
+			display: none;
+			&:checked + div {
+				opacity: 1;
+				background-color: rgba(125,255,111,.5);
+				&::after {
+					content: "\2714";
+					float: right;
+					height: 0;
 				}
 			}
 		}

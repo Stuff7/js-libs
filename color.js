@@ -136,9 +136,11 @@ Color.prototype.updateHSV = function() {
 	this.value = (cmax * 100) | 0
 }
 Color.random = function(options) {
-	return new Color().setOptions(options).random()
+	const color = new Color().setOptions(options).random()
+	color.updateHSV()
+	return color
 }
-Color.RGBA = function(r=0,g=0,b=0,a=1) {
+Color.RGB = Color.RGBA = function(r=0,g=0,b=0,a=1) {
 	const color = new Color()
 	color.setRGBA(r,g,b,a)
 	color.updateHSV()

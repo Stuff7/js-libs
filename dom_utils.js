@@ -10,7 +10,6 @@ export const $$ = document.querySelectorAll.bind(document)
 export function $onready(fn) {
 	document.on("DOMContentLoaded", fn)
 }
-
 export function parents(elem) {
 	const nodes = []
 	while(elem.parentNode != document) {

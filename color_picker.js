@@ -1,11 +1,11 @@
 import {Color} from "./color.js"
 import {$, $$, setMouseTracking} from "./dom_utils.js"
-import {clamp} from "./utils.js"
+import {clamp,lastElem} from "./utils.js"
 import {CustomEventHandler} from "./event_handler.js"
 
 const HTML = {}
 
-export function ColorPicker(elem, color = Color.HSV(0, 100, 100)) {
+export function ColorPicker(elem, color) {
 	if(!(this instanceof ColorPicker)) return new ColorPicker(elem, color)
 	elem.innerHTML = HTML.colorPicker
 	this.hueArea = elem.$(".hue")
@@ -13,11 +13,11 @@ export function ColorPicker(elem, color = Color.HSV(0, 100, 100)) {
 	this.hsvPicker = this.hsvArea.$(".picker")
 	this.alphaArea = elem.$(".alpha")
 	this.alpha = this.alphaArea.$(".alpha > div:first-child")
-	this.color = color
+	this.color = color || parseColorString(elem.dataset.color)
 	this.inputs = {
-		hue: elem.$("[data-name=setHue]"),
-		saturation: elem.$("[data-name=setSaturation]"),
-		value: elem.$("[data-name=setValue]"),
+		hue: elem.$("[data-name=hue]"),
+		saturation: elem.$("[data-name=saturation]"),
+		value: elem.$("[data-name=value]"),
 		r: elem.$("[data-name=r]"),
 		g: elem.$("[data-name=g]"),
 		b: elem.$("[data-name=b]"),
@@ -28,10 +28,15 @@ export function ColorPicker(elem, color = Color.HSV(0, 100, 100)) {
 	this.setupInputs()
 	this.setupHSVArea()
 	this.setupVerticalSliders()
+	this.setupRandomButtons(elem.nextElementSibling)
+	this.updateUI()
 }
 ColorPicker.prototype = new CustomEventHandler("colorchange")
 ColorPicker.prototype.constructor = ColorPicker
 
+ColorPicker.prototype.getColorString = function() {
+	return this.color.r+":"+this.color.g+":"+this.color.b+":"+this.color.a
+}
 ColorPicker.prototype.verticalSliders = function*() {
 	yield this.hueArea; yield this.alphaArea
 }
@@ -59,33 +64,30 @@ ColorPicker.prototype.updateUI = function() {
 	this.alpha.style.background = `linear-gradient(${rgb}, transparent)`
 }
 
+ColorPicker.prototype.setupRandomButtons = function(elem) {
+	if(elem instanceof Element && elem.classList.contains("random-color"))
+		elem.$("div").on("click", ()=> {
+			this.color.random().updateHSV()
+			this.updateUI()
+		})
+	delete ColorPicker.prototype.setupRandomButtons
+}
 ColorPicker.prototype.setupInputs = function() {
 	for(let input in this.inputs) {
 		input = this.inputs[input]
 		const name = input.dataset.name
-		let handler = ()=>{}
-		if(name.startsWith("set")) {
-			handler = ()=> {
-				this.color[name](input.value)
+		let handler = fn=> {
+			return ()=> {
+				if(input.checkValidity())
+					fn(input.value)
+				else
+					input.value = this.color[name]
+				this.updateUI()
 			}
 		}
-		else if(name=="hex") {
-			handler = ()=> {
-				this.color.hexToRGB(input.value)
-			}
-		}
-		else if(name=="a") {
-			handler = ()=> {
-				this.color.a = input.value
-			}
-		}
-		else {
-			handler = ()=> {
-				this.color.setByName(name, input.value)
-			}
-		}
-		input.on("change", handler)
-		input.on("change", ()=>this.updateUI())
+		const fnName = name=="hex"? "hexToRGB" : "set"+name.capitalize()
+		input.on("change", handler(name=="a"? v=>this.color.a=v
+			: name.length>1? v=>this.color[fnName](v) : v=>this.color.setByName(name,v)))
 	}
 	delete ColorPicker.prototype.setupInputs
 }
@@ -156,13 +158,28 @@ function maxHSV(h) {
 	if (H >= 4 && H < 5) return [X, m, C]
 	if (H >= 5 && H < 6) return [C, m, X]
 }
+function parseColorString(data) {
+	if(typeof data == "string") {
+		if(data.toLowerCase() == "random") return Color.random({min:255,max:500})
+		const color = data.split(":")
+		let format = lastElem(color).toUpperCase()
+		if(isNaN(parseInt(format))) color.pop()
+		for(const c in color)
+			if(isNaN((color[c] = parseInt(color[c]))))
+				throw Error(`Could not parse color ${c} in ColorPicker creation`)
+		if(!(format == "HSV" || format == "RGB" || format == "RGBA"))
+			format = "RGB" 
+		return Color[format](...color)
+	}
+	return Color.HSV(0, 100, 100)
+}
 
 
 HTML.colorPicker = 
 	`<div class="hue"><div class="slider-picker"></div></div>`+
 	`<div class="hsv-area"><div><div class="picker"></div></div></div>`+
 	`<div class="alpha"><div><div class="slider-picker"></div></div></div>`+
-	`<div class="inputs">`+["H:setHue","S:setSaturation","V:setValue","R:r","G:g","B:b"].reduce((html,arr)=>{
+	`<div class="inputs">`+["H:hue","S:saturation","V:value","R:r","G:g","B:b"].reduce((html,arr)=>{
 			const [name,data] = arr.split(":")
 			return html+=`<label><span><span>${name}</span></span><input type="number" data-name="${data}"></label>`
 		}, "")+

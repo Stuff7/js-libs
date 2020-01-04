@@ -33,7 +33,10 @@ function createDropdown(dropdownElem) {
 	dropdownElem.on("mousedown", function(e) {
 		if(e.button) return
 		e.stopPropagation()
-		if(!this.classList.contains("focused")) this.classList.add("focused")
+		if(!this.classList.contains("focused")) {
+			this.classList.add("focused")
+			this.dispatchEvent(customFocus)
+		}
 		else if(shouldCancel) return (shouldCancel = false)
 		else blur()
 	})
