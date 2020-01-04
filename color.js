@@ -177,4 +177,4 @@ Palette.prototype.updateHTML = function(suffix="c1") {
 }
 Palette.random = function(options) {
 	return new Palette(Color.random(options))
-}
+}//
