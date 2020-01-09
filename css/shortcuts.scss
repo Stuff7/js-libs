@@ -15,6 +15,10 @@
 	-ms-user-select: none;
 	user-select: none;
 }
+@mixin display-grid() {
+	display: -ms-grid;
+	display: grid;
+}
 @mixin flex($dir: null, $justify: null, $align-items: null, $wrap: null) {
 	display: flex;
 	flex-direction: $dir;

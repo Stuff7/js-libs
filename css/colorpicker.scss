@@ -1,13 +1,14 @@
 @use "shortcuts" as sc;
 
 .color-picker {
-	display: grid;
+	@include sc.display-grid;
 	padding: 10px;
 	grid-template-areas:
 		"a b d"
-		"c c c";
+		"c c c"
+		"r r r";
 	grid-template-columns: 15px 1fr 15px;
-	grid-template-rows: 1fr auto;
+	grid-template-rows: 1fr auto auto;
 	grid-gap: 8px;
 	.hue, .alpha {
 		grid-area: a;
@@ -87,7 +88,8 @@
 			}
 		}
 	}
-	+ .random-color {
+	.random-color {
+		grid-area: r;
 		display: flex;
 		div {
 			display: inline-block;
@@ -136,7 +138,9 @@
 }
 @media(orientation: landscape) and (max-height: 400px) {
 	.color-picker {
-		grid-template-areas: "c a b d";
+		grid-template-areas:
+			"c a b d"
+			"r r r r";
 		grid-template-columns: 1fr 15px 1fr 15px;
 		grid-template-rows: 1fr auto;
 		.inputs {

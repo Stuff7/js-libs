@@ -7,7 +7,7 @@ const HTML = {}
 
 export function ColorPicker(elem, color) {
 	if(!(this instanceof ColorPicker)) return new ColorPicker(elem, color)
-	elem.innerHTML = HTML.colorPicker
+	this.setupHTML(elem)
 	this.hueArea = elem.$(".hue")
 	this.hsvArea = elem.$(".hsv-area")
 	this.hsvPicker = this.hsvArea.$(".picker")
@@ -28,7 +28,6 @@ export function ColorPicker(elem, color) {
 	this.setupInputs()
 	this.setupHSVArea()
 	this.setupVerticalSliders()
-	this.setupRandomButtons(elem.nextElementSibling)
 	this.updateUI()
 }
 ColorPicker.prototype = new CustomEventHandler("colorchange")
@@ -64,12 +63,22 @@ ColorPicker.prototype.updateUI = function() {
 	this.alpha.style.background = `linear-gradient(${rgb}, transparent)`
 }
 
-ColorPicker.prototype.setupRandomButtons = function(elem) {
-	if(elem instanceof Element && elem.classList.contains("random-color"))
-		elem.$("div").on("click", ()=> {
-			this.color.random().updateHSV()
-			this.updateUI()
-		})
+ColorPicker.prototype.setupHTML = function(elem) {
+	const trans = { random: elem.$("trans[random]"), alwaysRandom: elem.$("trans[always-random]")}
+	
+	elem.innerHTML = HTML.colorPicker
+	const randomButton = elem.$(".random-color div")
+	const randomToggle = elem.$(".random-color label input")
+	randomButton.on("click", ()=> {
+		this.color.random().updateHSV()
+		this.updateUI()
+	})
+	randomToggle.checked = elem.dataset.color == "random"
+
+	const randomButtons = { random: randomButton, alwaysRandom: elem.$(".random-color label div") }
+	for(const index in randomButtons)
+		trans[index]&&(randomButtons[index].innerText = trans[index].innerText)
+
 	delete ColorPicker.prototype.setupRandomButtons
 }
 ColorPicker.prototype.setupInputs = function() {
@@ -185,4 +194,11 @@ HTML.colorPicker =
 		}, "")+
 		`<label><span><span>Alpha</span></span><input type="number" step=".01" data-name="a"></label>`+
 		`<label><span><span>#</span></span><input data-name="hex"></label>`+
+	"</div>"+
+	`<div class="random-color">`+
+		"<div>RANDOM</div>"+
+		"<label>"+
+			`<input type="checkbox">`+
+			"<div>ALWAYS RANDOM</div>"+
+		"</label>"+
 	"</div>"
