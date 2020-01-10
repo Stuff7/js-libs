@@ -53,7 +53,7 @@ export function clearNode(node) {
 	return node
 }
 export function createLogger() {
-	const main = $("main")
+	const main = $("#main")
 	const xmlns = "http://www.w3.org/2000/svg"
 	const msg = createElement("div", {innerText: "Copied!"})
 	const logger = createElement("span", {id: "log", children: [

@@ -85,6 +85,17 @@ if (!String.prototype.repeat) {
 	}
 }
 
+(function () {
+	if ( typeof window.CustomEvent === "function" ) return false;
+	function CustomEvent ( event, params ) {
+		params = params || { bubbles: false, cancelable: false, detail: null };
+		var evt = document.createEvent( 'CustomEvent' );
+		evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+		return evt;
+	 }
+	window.CustomEvent = CustomEvent;
+})();
+
 if(!String.prototype.capitalize) {
 	String.prototype.capitalize = function() {
 		return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase()

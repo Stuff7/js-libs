@@ -1,6 +1,10 @@
 @function toFixed($percentage) {
 	@return floor($percentage*100)/100;
 }
+@mixin var($prop, $var, $fall) {
+	#{$prop}: $fall;
+	#{$prop}: var($var);
+}
 @mixin not($exclude,$prop,$val,$none: none) {
 	#{$prop}: $val;
 	&:#{$exclude} {
@@ -26,22 +30,23 @@
 	align-items: $align-items;
 	flex-wrap: $wrap;
 }
-@mixin svg($fill: var(--normal-c1), $width: null, $size: null, $stroke: null, $join: null) {
+@mixin svg($fill: null, $width: null, $size: null, $stroke: null, $join: null) {
 	fill: $fill;
 	width: $width;
+	height: $width;
 	stroke-width: $size;
 	stroke: $stroke;
 	stroke-linejoin: $join;
 }
-@mixin scrollbar($thumb: var(--dim-c1), $track: var(--darker-c1)) {
+@mixin scrollbar($thumb: null, $track: null) {
 	scrollbar-color: $thumb $track;
 	scrollbar-width: thin;
 	*::-webkit-scrollbar {
-		background-color: track;
+		background-color: $track;
 		width: 4px;
 	}
 	*::-webkit-scrollbar-thumb {
-		background-color: thumb;
+		background-color: $thumb;
 	}
 }
 @mixin hideInputSpinners {
