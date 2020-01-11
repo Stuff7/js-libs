@@ -159,11 +159,18 @@ export function Palette(color) {
 	this.update()
 }
 Palette.prototype.update = function() {
-	this.shades.darker = this.baseColor.strength(.08).toString(),
-	this.shades.dark = this.baseColor.strength(.15).toString(),
-	this.shades.dim = this.baseColor.strength(.4).toString(),
-	this.shades.normal = this.baseColor.strength(.7).toString(),
-	this.shades.light = this.baseColor.toString()
+	this.shades.darker = this.baseColor.strength(.08).toString()
+	this.shades.dark = this.baseColor.strength(.15).toString()
+	this.shades.dim = this.baseColor.strength(.4)
+	this.shades.normal = this.baseColor.strength(.7)
+	this.shades.light = new Color(this.baseColor)
+	let total = 100
+	for(const name of ["light", "normal", "dim"]) {
+		const v = this.shades[name].value
+		v < 50 && this.shades[name].setValue(total-v)
+		total-=20
+		this.shades[name] = this.shades[name].toString()
+	}
 	return this
 }
 Palette.prototype.random = function() {
