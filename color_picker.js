@@ -34,7 +34,7 @@ ColorPicker.prototype = new CustomEventHandler("colorchange", "colorinput")
 ColorPicker.prototype.constructor = ColorPicker
 
 ColorPicker.prototype.getColorString = function() {
-	return this.color.r+":"+this.color.g+":"+this.color.b+":"+this.color.a
+	return this.color.hue+":"+this.color.saturation+":"+this.color.value+":"+this.color.a+":hsv"
 }
 ColorPicker.prototype.verticalSliders = function*() {
 	yield this.hueArea; yield this.alphaArea

@@ -25,9 +25,10 @@ function createDropdown(dropdownElem) {
 		dropdownElem.classList.remove("focused")
 		dropdownElem.dispatchEvent(customBlur)
 	}
-	document.on("mousedown", function(e) {
-		if(!e.button) blur()
-	})
+
+	for(const parent of parents(dropdownElem))
+		parent.on("mousedown", function(e) { !e.button&&blur() })
+
 	dropdownElem.on("mousedown", function(e) {
 		if(e.button) return
 		e.stopPropagation()

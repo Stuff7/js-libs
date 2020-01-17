@@ -10,13 +10,9 @@ export const $$ = document.querySelectorAll.bind(document)
 export function $onready(fn) {
 	document.on("DOMContentLoaded", fn)
 }
-export function parents(elem) {
-	const nodes = []
-	while(elem.parentNode != document) {
-		nodes.unshift(elem.parentNode)
-		elem = elem.parentNode
-	}
-	return nodes
+export function* parents(elem) {
+	while(elem.parentNode != document)
+		yield (elem = elem.parentNode)
 }
 export function setMouseTracking(elem, callback) {
 	elem.on("mousedown", function(e) {

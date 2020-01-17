@@ -146,9 +146,10 @@ Color.RGB = Color.RGBA = function(r=0,g=0,b=0,a=1) {
 	color.updateHSV()
 	return color
 }
-Color.HSV = function(h=0,s=0,v=0) {
+Color.HSV = function(h=0,s=0,v=0, a=1) {
 	const color = new Color()
 	color.setHSV(h,s,v)
+	color.a = a
 	return color
 }
 
