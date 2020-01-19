@@ -10,6 +10,12 @@ export const $$ = document.querySelectorAll.bind(document)
 export function $onready(fn) {
 	document.on("DOMContentLoaded", fn)
 }
+export function isOffscreen(elem) {
+	if(elem.hidden) return false
+	const rect = elem.getBoundingClientRect()
+	return rect.x < 0 || rect.y < 0 ||
+				 (rect.x + rect.width) > window.innerWidth || (rect.y + rect.height) > window.innerHeight
+}
 export function* parents(elem) {
 	while(elem.parentNode != document)
 		yield (elem = elem.parentNode)
@@ -49,7 +55,7 @@ export function clearNode(node) {
 	return node
 }
 export function createLogger() {
-	const main = $("#main")
+	const main = $("main")
 	const xmlns = "http://www.w3.org/2000/svg"
 	const msg = createElement("div", {innerText: "Copied!"})
 	const logger = createElement("span", {id: "log", children: [

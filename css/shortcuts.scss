@@ -1,6 +1,74 @@
 @function toFixed($percentage) {
 	@return floor($percentage*100)/100;
 }
+@mixin toggle() {
+	div {
+		cursor: pointer;
+		width: 40px;
+		height: 20px;
+		background-color: #333;
+		display: block;
+		border-radius: 20px;
+		position: relative;
+		border: .1px solid #FFF;
+		&::after {
+			content: '';
+			position: absolute;
+			top: 1px;
+			left: 1px;
+			width: 18px;
+			height: 18px;
+			background: #FFF;
+			border-radius: 18px;
+			transition: 0.3s;
+		}
+		&:active::after {
+			width: 26px;
+		}
+	}
+	input {
+		display: none;
+		&:checked {
+			+ div {
+				background: limegreen;
+				&::after {
+					left: calc(100% - 1px);
+					transform: translateX(-100%);
+				}
+			}
+		}
+	}
+}
+@mixin table-vscroll() {
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+	width: 100%;
+	border-collapse: collapse;
+	thead, tbody tr {
+		display: table;
+		table-layout: fixed;
+	}
+	thead {
+		flex: 0 0 auto;
+		display: block;
+		overflow: hidden scroll;
+		tr {
+			display: flex;
+			th {
+				flex: 1;
+			}
+		}
+	}
+	tbody {
+		flex: 1 1 auto;
+		display: block;
+		overflow: hidden scroll;
+		tr {
+			width: 100%;
+		}
+	}
+}
 @mixin var($prop, $var, $fall) {
 	#{$prop}: $fall;
 	#{$prop}: var($var);
@@ -10,6 +78,19 @@
 	&:#{$exclude} {
 		#{$prop}: $none;
 	}
+}
+@mixin center {
+	bottom: 50%;
+	right: 50%;
+	transform: translate(50%,50%);
+}
+@mixin centerX {
+	right: 50%;
+	transform: translateX(50%);
+}
+@mixin centerY {
+	bottom: 50%;
+	transform: translateY(50%);
 }
 @mixin no-select {
 	-webkit-touch-callout: none;
