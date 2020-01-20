@@ -1,0 +1,29 @@
+@use "shortcuts" as sc;
+
+.clipboard {
+	@include sc.flex($justify: space-between);
+	margin: 0 auto;
+	background-color: #0C0C0C;
+	border: 2px solid rgba(255,255,255,0.2);
+	border-radius: 8px;
+	padding: 0 8px;
+	svg {
+		@include sc.svg($stroke: #FFF, $width: 30px, $size: 2, $fill: none);
+	}
+	.input {
+		@include sc.flex($align-items: center);
+		overflow: auto;
+		white-space: nowrap;
+		width: 90%;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		flex: 1;
+	}
+	.button {
+		padding: 5px 6px 0 6px;
+		border-radius: 100%;
+		&:hover {
+			background-color: rgba(255,255,255,0.1);
+		}
+	}
+}

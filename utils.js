@@ -23,3 +23,11 @@ export function inRange(v,min,max) {
 export function lastElem(array) {
 	return array[array.length - 1];
 }
+export function formatStr(str, kwargs) {
+	if(!kwargs) return str
+	return str.replace(/{(\w+)}/g, function(match, name) { 
+		return typeof kwargs[name] != 'undefined'
+			? kwargs[name]
+			: match
+	})
+}
