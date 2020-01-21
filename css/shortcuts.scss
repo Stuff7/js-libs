@@ -45,28 +45,29 @@
 	height: 100%;
 	width: 100%;
 	border-collapse: collapse;
-	thead, tbody tr {
-		display: table;
-		table-layout: fixed;
-	}
-	thead {
-		flex: 0 0 auto;
+	overflow: auto;
+	thead, tbody {
 		display: block;
-		overflow: hidden scroll;
-		tr {
-			display: flex;
-			th {
-				flex: 1;
-			}
-		}
+		overflow-y: scroll;
+		flex: 0 0 auto;
 	}
 	tbody {
 		flex: 1 1 auto;
-		display: block;
-		overflow: hidden scroll;
-		tr {
-			width: 100%;
+	}
+	tr {
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+	}
+	th {
+		position: relative;
+		span {
+			position: absolute;
+			@include center;
 		}
+	}
+	td {
+		padding: 8px;
 	}
 }
 @mixin var($prop, $var, $fall) {

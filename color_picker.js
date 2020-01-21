@@ -70,6 +70,7 @@ ColorPicker.prototype.dispatchColorChange = function() {
 	document.on("mouseup", mouseup)
 }
 
+// PRIVATE
 ColorPicker.prototype.setupHTML = function(elem) {
 	const trans = { random: elem.$("trans[random]"), alwaysRandom: elem.$("trans[always-random]")}
 	
@@ -87,8 +88,6 @@ ColorPicker.prototype.setupHTML = function(elem) {
 	const randomButtons = { random: randomButton, alwaysRandom: elem.$(".random-color label div") }
 	for(const name in randomButtons)
 		trans[name]&&(randomButtons[name].innerText = trans[name].innerText)
-
-	delete ColorPicker.prototype.setupRandomButtons
 }
 ColorPicker.prototype.setupInputs = function() {
 	for(let input in this.inputs) {
@@ -108,7 +107,6 @@ ColorPicker.prototype.setupInputs = function() {
 		input.on("change", handler(name=="a"? v=>this.color.a=v
 			: name.length>1? v=>this.color[fnName](v) : v=>this.color.setByName(name,v)))
 	}
-	delete ColorPicker.prototype.setupInputs
 }
 ColorPicker.prototype.setupHSVArea = function() {
 	this.hsvArea.on("mousedown", ()=> this.dispatchColorChange())
@@ -125,7 +123,6 @@ ColorPicker.prototype.setupHSVArea = function() {
 
 		this.updateInputs()
 	})
-	delete ColorPicker.prototype.setupHSVArea
 }
 ColorPicker.prototype.setupVerticalSliders = function() {
 	for(const sliderArea of this.verticalSliders()) {
@@ -163,7 +160,6 @@ ColorPicker.prototype.setupVerticalSliders = function() {
 			this.updateInputs()
 		})
 	}
-	delete ColorPicker.prototype.setupVerticalSliders
 }
 function maxHSV(h) {
 	const H = h / 60

@@ -36,11 +36,12 @@ DatePicker.prototype.toString = function() {
 	this.formatOptions.hour12 = this.hourFormat != "HR"
 	return this.date.toLocaleString(this.locale, this.formatOptions)
 }
+
+// PRIVATE
 DatePicker.prototype.setupUI = function() {
 	this.buildMonthGUI()
 	for(const time of ["hours", "minutes", "seconds"])
 		this[time].value = this.date[`get${time.capitalize()}`]().toString().padStart(2,0)
-	delete DatePicker.prototype.setupUI
 }
 DatePicker.prototype.setupDateChangeHandler = function() {
 	for(const days of this.days) {
@@ -133,7 +134,6 @@ DatePicker.prototype.setupMonthChangeHandler = function() {
 		this.guiDate.setMonth(this.guiDate.getMonth()+1)
 		this.buildMonthGUI(this.guiDate)
 	})
-	delete DatePicker.prototype.setupMonthChangeHandler
 }
 DatePicker.prototype.setupHrFormatHandler = function(datepicker) {
 	const selectedFormat = datepicker.$(".month .dropdown span")
@@ -160,7 +160,6 @@ DatePicker.prototype.setupHrFormatHandler = function(datepicker) {
 		second: "2-digit",
 		hour12: this.hourFormat != "HR"
 	}
-	delete DatePicker.prototype.setupHrFormatHandler
 }
 DatePicker.prototype.setupHourChangeHandler = function() {
 	for(const time of [this.hours,this.minutes,this.seconds]) {
@@ -168,7 +167,6 @@ DatePicker.prototype.setupHourChangeHandler = function() {
 			this.setValidHour()
 		})
 	}
-	delete DatePicker.prototype.setupHourChangeHandler
 }
 DatePicker.prototype.orderDays = function() {
 	let i = this.weekStart
@@ -176,7 +174,6 @@ DatePicker.prototype.orderDays = function() {
 		day.append(createElement("span", {innerHTML: `<span>${DAY[i].capitalize()}</span>`}))
 		++i==7&&(i=0)
 	}
-	delete DatePicker.prototype.buildDaysGUI
 }
 
 function dayElem(day, othermonth) {
