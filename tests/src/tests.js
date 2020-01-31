@@ -3,6 +3,7 @@
 import {$,$$,$onready} from "Libs/dom_utils.js"
 import {ColorPicker} from "Libs/color_picker.js"
 import {Dropdown} from "Libs/dropdown.js"
+import Fuse from "fuse.js"
 
 $onready(function() {
 	const colorpicker = ColorPicker($(".color-picker"))
@@ -12,4 +13,5 @@ $onready(function() {
 		dropdownTag.innerText = color.hex()
 	})
 	$(".dropdown").on("customFocus", ()=> colorpicker.updateUI())
+	window.Fuse = Fuse
 })
