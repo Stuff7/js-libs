@@ -1,5 +1,11 @@
 import "whatwg-fetch"
 
+if(!Array.prototype.includes){
+	 //or use Object.defineProperty
+		Array.prototype.includes = function(search){
+		return !!~this.indexOf(search);
+	}
+}
 (function remove (arr) {
 	arr.forEach(function (item) {
 		if (item.hasOwnProperty('remove')) {
