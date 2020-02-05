@@ -9,6 +9,12 @@
 	.scroll {
 		max-height: 50vh;
 		overflow: hidden auto;
+		li {
+			display: flex;
+			.left-img {
+				margin-right: 8px;
+			}
+		}
 	}
 	> ul {
 		background-color: #444;
@@ -65,6 +71,7 @@
 	.button::after {
 		content: "\276F";
 		padding: 0 8px;
+		margin-left: auto;
 	}
 	.separator {
 		height: 1px;
